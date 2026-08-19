@@ -1,0 +1,33 @@
+<div style="max-width: 600px; margin: 40px auto; font-family: Arial, sans-serif;">
+  <h2>TaskFlow - Gestor de Tareas</h2>
+
+  <div style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+    <h3>Nueva Tarea</h3>
+    <input 
+      type="text" 
+      placeholder="Título" 
+      [(ngModel)]="newTask.title" 
+      style="display: block; width: 100%; margin-bottom: 10px; padding: 8px;"
+    />
+    <textarea 
+      placeholder="Descripción" 
+      [(ngModel)]="newTask.description" 
+      style="display: block; width: 100%; margin-bottom: 10px; padding: 8px;"
+    ></textarea>
+    <button (click)="addTask()" style="background: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px;">
+      Guardar Tarea
+    </button>
+  </div>
+
+  <h3>Lista de Tareas</h3>
+  @if (tasks.length === 0) {
+    <div>No hay tareas creadas todavía.</div>
+  }
+  
+  <ul>
+    <li *ngFor="let task of tasks" style="background: #fff; border: 1px solid #ddd; padding: 10px; margin-bottom: 8px; border-radius: 4px;">
+      <strong>{{ task.title }}</strong> - <span style="color: gray;">{{ task.status }}</span>
+      <p>{{ task.description }}</p>
+    </li>
+  </ul>
+</div>
