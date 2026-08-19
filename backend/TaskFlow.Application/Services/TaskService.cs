@@ -50,4 +50,10 @@ public class TaskService
     {
         await _taskRepository.DeleteAsync(id);
     }
+
+    public async Task UpdateTaskAsync(TaskItem task)
+    {
+        await _taskRepository.UpdateAsync(task);
+    }
+
 }

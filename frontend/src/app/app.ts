@@ -57,4 +57,22 @@ export class App implements OnInit {
       }
     });
   }
+
+  toggleTaskStatus(task: TaskItem) {
+    task.status = task.status === 'Completed' ? 'Pending' : 'Completed';
+    
+    const taskToUpdate = {
+      ...task,
+      userId: task.userId || 1 
+    };
+
+    this.taskService.updateTask(taskToUpdate).subscribe({
+      next: () => {
+        console.log('Tarea actualizada correctamente');
+      },
+      error: (err) => {
+        console.error('Error al actualizar la tarea:', err);
+      }
+    });
+  }
 }

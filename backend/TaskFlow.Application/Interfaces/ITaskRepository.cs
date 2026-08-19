@@ -8,5 +8,6 @@ public interface ITaskRepository
     Task<TaskItem?> GetByIdAsync(int id);
     Task AddAsync(TaskItem task);
     Task DeleteAsync(int id);
+    Task UpdateAsync(TaskItem task);
     Task SaveChangesAsync();
 }

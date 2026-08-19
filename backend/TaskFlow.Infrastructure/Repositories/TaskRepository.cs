@@ -43,4 +43,10 @@ public class TaskRepository : ITaskRepository
     {
         await _context.SaveChangesAsync();
     }
+
+    public async Task UpdateAsync(TaskItem task)
+    {
+        _context.Entry(task).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+    }
 }

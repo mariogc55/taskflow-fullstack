@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskFlow.Application.DTOs;
 using TaskFlow.Application.Services;
+using TaskFlow.Domain.Entities;
 
 namespace TaskFlow.API.Controllers;
 
@@ -42,6 +43,25 @@ public class TasksController : ControllerBase
         try
         {
             await _taskService.DeleteTaskAsync(id);
+            return NoContent();
+        }
+        catch (Exception)
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateTask(int id, [FromBody] TaskItem task)
+    {
+        if (id != task.Id)
+        {
+            return BadRequest();
+        }
+
+        try
+        {
+            await _taskService.UpdateTaskAsync(task);
             return NoContent();
         }
         catch (Exception)

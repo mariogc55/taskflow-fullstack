@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace TaskFlow.Domain.Entities;
 
 public class TaskItem
@@ -8,6 +10,8 @@ public class TaskItem
     public string Status { get; set; } = "Pending";
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     
-    public int UserId { get; set; }
-    public User User { get; set; } = null!;
+    public int UserId { get; set; } = 1;
+
+    [JsonIgnore]
+    public User? User { get; set; }
 }

@@ -1,36 +1,80 @@
-<div style="max-width: 600px; margin: 40px auto; font-family: Arial, sans-serif;">
-  <h2>TaskFlow - Gestor de Tareas</h2>
+<div class="container mt-5" style="max-width: 700px;">
+  <h2 class="text-center mb-4 fw-bold text-primary">TaskFlow - Gestor de Tareas</h2>
 
-  <div style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-    <h3>Nueva Tarea</h3>
-    <input 
-      type="text" 
-      placeholder="Título" 
-      [(ngModel)]="newTask.title" 
-      style="display: block; width: 100%; margin-bottom: 10px; padding: 8px;"
-    />
-    <textarea 
-      placeholder="Descripción" 
-      [(ngModel)]="newTask.description" 
-      style="display: block; width: 100%; margin-bottom: 10px; padding: 8px;"
-    ></textarea>
-    <button (click)="addTask()" style="background: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px;">
+  <!-- Formulario de Nueva Tarea -->
+  <div class="card shadow-sm p-4 mb-4 border-0 bg-light">
+    <h4 class="mb-3 text-secondary">Nueva Tarea</h4>
+    <div class="mb-3">
+      <input 
+        type="text" 
+        class="form-control" 
+        placeholder="Título de la tarea" 
+        [(ngModel)]="newTask.title" 
+      />
+    </div>
+    <div class="mb-3">
+      <textarea 
+        class="form-control" 
+        placeholder="Descripción detallada" 
+        rows="2"
+        [(ngModel)]="newTask.description" 
+      ></textarea>
+    </div>
+    <button class="btn btn-primary w-100 fw-bold py-2" (click)="addTask()">
       Guardar Tarea
     </button>
   </div>
 
-  <h3>Lista de Tareas</h3>
-  @if (tasks.length === 0) {
-    <div>No hay tareas creadas todavía.</div>
-  }
+  <!-- Lista de Tareas -->
+  <h4 class="mb-3 text-secondary">Lista de Tareas</h4>
   
-  <ul>
-    <li *ngFor="let task of tasks" style="background: #fff; border: 1px solid #ddd; padding: 10px; margin-bottom: 8px; border-radius: 4px;">
-      <strong>{{ task.title }}</strong> - <span style="color: gray;">{{ task.status }}</span>
-      <p>{{ task.description }}</p>
-      <button (click)="deleteTask(task.id)" style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
-        Eliminar
-      </button>
-    </li>
-  </ul>
+  @if (tasks.length === 0) {
+    <div class="alert alert-info text-center shadow-sm" role="alert">
+      No hay tareas creadas todavía. ¡Crea una arriba!
+    </div>
+  }
+
+  <div class="list-group">
+    <div *ngFor="let task of tasks" class="card shadow-sm mb-3 p-3 border-0">
+      
+      <!-- Fila superior: Checkbox, Título y Estado -->
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+          <!-- Checkbox interactivo -->
+          <input 
+            type="checkbox" 
+            class="form-check-input mt-0" 
+            style="transform: scale(1.3); cursor: pointer;"
+            [checked]="task.status === 'Completed'" 
+            (change)="toggleTaskStatus(task)" 
+          />
+          
+          <!-- Título con tachado automático si está completado -->
+          <span [class.text-decoration-line-through]="task.status === 'Completed'"
+                [class.text-muted]="task.status === 'Completed'"
+                class="fs-5 fw-semibold">
+            {{ task.title }}
+          </span>
+        </div>
+        
+        <!-- Insignia de estado (Verde si está completada, Amarilla si está pendiente) -->
+        <span class="badge" [ngClass]="task.status === 'Completed' ? 'bg-success' : 'bg-warning text-dark'">
+          {{ task.status || 'Pending' }}
+        </span>
+      </div>
+
+      <!-- Descripción de la tarea -->
+      <p class="text-muted ms-4 mt-2 mb-3" style="font-size: 0.95rem;">
+        {{ task.description }}
+      </p>
+
+      <!-- Botón de eliminar alineado -->
+      <div class="ms-4">
+        <button class="btn btn-outline-danger btn-sm px-3" (click)="deleteTask(task.id)">
+          Eliminar
+        </button>
+      </div>
+
+    </div>
+  </div>
 </div>
