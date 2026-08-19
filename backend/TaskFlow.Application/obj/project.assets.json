@@ -1,11 +1,30 @@
 {
   "version": 4,
   "targets": {
-    "net10.0": {}
+    "net10.0": {
+      "TaskFlow.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/TaskFlow.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TaskFlow.Domain.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "TaskFlow.Domain/1.0.0": {
+      "type": "project",
+      "path": "../TaskFlow.Domain/TaskFlow.Domain.csproj",
+      "msbuildProject": "../TaskFlow.Domain/TaskFlow.Domain.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net10.0": []
+    "net10.0": [
+      "TaskFlow.Domain >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\EQUIPO1\\.nuget\\packages\\": {},
@@ -37,7 +56,11 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\EQUIPO1\\Desktop\\taskflow-fullstack\\taskflow-fullstack\\backend\\TaskFlow.Domain\\TaskFlow.Domain.csproj": {
+              "projectPath": "C:\\Users\\EQUIPO1\\Desktop\\taskflow-fullstack\\taskflow-fullstack\\backend\\TaskFlow.Domain\\TaskFlow.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
