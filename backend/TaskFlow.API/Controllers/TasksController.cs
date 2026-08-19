@@ -35,4 +35,18 @@ public class TasksController : ControllerBase
         var createdTask = await _taskService.CreateTaskAsync(taskDto);
         return CreatedAtAction(nameof(GetTasks), new { id = createdTask.Id }, createdTask);
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTask(int id)
+    {
+        try
+        {
+            await _taskService.DeleteTaskAsync(id);
+            return NoContent();
+        }
+        catch (Exception)
+        {
+            return NotFound();
+        }
+    }
 }

@@ -29,6 +29,16 @@ public class TaskRepository : ITaskRepository
         await _context.Tasks.AddAsync(task);
     }
 
+    public async Task DeleteAsync(int id)
+    {
+        var task = await _context.Tasks.FindAsync(id);
+        if (task != null)
+        {
+            _context.Tasks.Remove(task);
+            await _context.SaveChangesAsync();
+        }
+    }
+
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();

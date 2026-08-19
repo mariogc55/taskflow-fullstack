@@ -44,4 +44,17 @@ export class App implements OnInit {
       error: (err) => console.error('Error al crear tarea:', err)
     });
   }
+
+  deleteTask(id?: number) {
+    if (!id) return;
+
+    this.taskService.deleteTask(id).subscribe({
+      next: () => {
+        this.tasks = this.tasks.filter(task => task.id !== id);
+      },
+      error: (err) => {
+        console.error('Error al eliminar la tarea:', err);
+      }
+    });
+  }
 }

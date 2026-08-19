@@ -45,4 +45,9 @@ public class TaskService
         taskDto.Id = taskEntity.Id;
         return taskDto;
     }
+
+    public async Task DeleteTaskAsync(int id)
+    {
+        await _taskRepository.DeleteAsync(id);
+    }
 }
