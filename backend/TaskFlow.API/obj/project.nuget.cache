@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Q9dqalLXP7o=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\EQUIPO1\\Desktop\\taskflow-fullstack\\taskflow-fullstack\\backend\\TaskFlow.API\\TaskFlow.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\EQUIPO1\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.11\\microsoft.aspnetcore.openapi.10.0.11.nupkg.sha512",
+    "C:\\Users\\EQUIPO1\\.nuget\\packages\\microsoft.openapi\\2.7.5\\microsoft.openapi.2.7.5.nupkg.sha512"
+  ],
+  "logs": []
+}
