@@ -1,98 +1,94 @@
-# TaskFlow - Gestor de Tareas Full Stack
+# TaskFlow — Gestor de Tareas Full Stack
 
-**TaskFlow** es una aplicación web moderna de gestión de tareas desarrollada con una arquitectura robusta y desacoplada. Utiliza **Angular** en el frontend y **ASP.NET Core Web API** en el backend, aplicando principios de Clean Architecture y conectándose a una base de datos **LocalDB (SQL Server)** mediante Entity Framework Core.
+TaskFlow es una aplicación web de gestión de tareas construida con una arquitectura desacoplada: **Angular** en el frontend y **ASP.NET Core Web API** en el backend, aplicando principios de **Clean Architecture** y persistencia mediante **Entity Framework Core** sobre SQL Server LocalDB.
 
----
+Es un proyecto personal de aprendizaje, en desarrollo activo, orientado a practicar el stack .NET + Angular en un caso de uso real de gestión de tareas (similar en concepto a Trello/Jira, pero simplificado).
 
-## Tecnologías Utilizadas
+## Estado del proyecto
 
-### Frontend
-* **Angular** (Framework SPA)
-* **TypeScript**
-* **Bootstrap 5** (Diseño UI/UX moderno y responsivo)
+ En desarrollo activo. Las funcionalidades básicas de CRUD de tareas están implementadas; se seguirá escalando en funcionalidad (autenticación de usuarios, prioridades, filtros, etc.). Ver la sección [Roadmap](#roadmap) para el detalle de lo que falta.
 
-### Backend
-* **.NET 9 / C#** (ASP.NET Core Web API)
-* **Entity Framework Core** (ORM)
-* **SQL Server / LocalDB** (Base de datos relacional)
+## Tecnologías utilizadas
 
----
+**Frontend**
+- Angular (framework SPA)
+- TypeScript
+- Bootstrap 5 (UI/UX responsivo)
 
-## Características Principales
+**Backend**
+- .NET 9 / C# (ASP.NET Core Web API)
+- Entity Framework Core (ORM)
+- SQL Server / LocalDB (base de datos relacional)
 
-* **Crear Tareas:** Permite añadir nuevas tareas con título y descripción detallada.
-* **Listar Tareas:** Visualización en tiempo real de todas las tareas registradas con su estado actual.
-* **Actualizar Estado:** Permite marcar/desmarcar tareas como completadas mediante un *checkbox*, actualizando automáticamente el estado (*Pending* / *Completed*) y aplicando un efecto visual tachado.
-* **Eliminar Tareas:** Borrado persistente de registros tanto en la interfaz como en la base de datos.
-* **Seguridad y CORS:** Configuración de políticas de intercambio de recursos entre Angular y el Backend.
+## Características actuales
 
----
+- **Crear tareas**: añadir nuevas tareas con título y descripción.
+- **Listar tareas**: visualización de todas las tareas registradas con su estado actual.
+- **Actualizar estado**: marcar/desmarcar tareas como completadas mediante checkbox, con actualización automática (Pending / Completed) y efecto visual tachado.
+- **Eliminar tareas**: borrado persistente tanto en la interfaz como en la base de datos.
+- **CORS configurado**: políticas de intercambio de recursos entre Angular y el backend.
 
-## Requisitos Previos
+## Arquitectura del backend
+
+El backend sigue los principios de Clean Architecture, separado en 4 capas:
+
+| Capa | Responsabilidad |
+|---|---|
+| `TaskFlow.Domain` | Entidades principales del negocio (`TaskItem`, `User`) |
+| `TaskFlow.Application` | Lógica de servicios, interfaces y DTOs |
+| `TaskFlow.Infrastructure` | Contexto de base de datos (`ApplicationDbContext`), repositorios y migraciones de EF Core |
+| `TaskFlow.API` | Controladores web y configuración de middleware (CORS, endpoints) |
+
+## Requisitos previos
 
 Antes de ejecutar el proyecto en tu máquina local, asegúrate de tener instalado:
-* [.NET SDK](https://dotnet.microsoft.com/) (versión recomendada actual)
-* [Node.js y npm](https://nodejs.org/)
-* SQL Server LocalDB (incluido por defecto con Visual Studio o las herramientas de .NET)
 
----
+- [.NET SDK](https://dotnet.microsoft.com/) (versión 9 o superior)
+- [Node.js y npm](https://nodejs.org/)
+- SQL Server LocalDB (incluido por defecto con Visual Studio o las herramientas de .NET)
 
-## Guía de Instalación y Ejecución
+## Guía de instalación y ejecución
 
-Sigue estos pasos para clonar y poner en marcha el proyecto localmente:
+### 1. Clonar el repositorio
 
-1. Clonar el repositorio
 ```bash
-git clone [https://github.com/tu-usuario/taskflow-fullstack.git](https://github.com/tu-usuario/taskflow-fullstack.git)
+git clone https://github.com/mariogc55/taskflow-fullstack.git
 cd taskflow-fullstack
+```
 
+### 2. Configurar y ejecutar el backend (.NET)
 
-2. Configurar y ejecutar el Backend (.NET)
-Navega a la carpeta de la API:
-
-Bash
+```bash
 cd backend/TaskFlow.API
-Ejecuta la aplicación (las migraciones y el usuario por defecto se crearán automáticamente gracias al seeder configurado):
-
-Bash
 dotnet run
-El backend correrá por defecto en http://localhost:5287.
+```
 
-3. Configurar y ejecutar el Frontend (Angular)
-Abre otra terminal y navega a la carpeta del frontend (según la estructura de tu proyecto):
+El backend correrá por defecto en `http://localhost:5287`.
 
-Bash
+### 3. Configurar y ejecutar el frontend (Angular)
+
+En otra terminal:
+
+```bash
 cd frontend
-Instala las dependencias:
-
-Bash
 npm install
-Inicia la aplicación de Angular:
-
-Bash
 ng serve
-Abre tu navegador y accede a: http://localhost:4200
+```
 
- Arquitectura del Backend
-El proyecto backend sigue los principios de Clean Architecture:
+Abre tu navegador en `http://localhost:4200`.
 
-TaskFlow.Domain: Entidades principales del negocio (TaskItem, User).
+## Roadmap
 
-TaskFlow.Application: Lógica de servicios, interfaces y DTOs.
+- [ ] Autenticación y autorización de usuarios
+- [ ] Prioridades y filtros de tareas
+- [ ] Tests unitarios (backend) y tests e2e (frontend)
+- [ ] Despliegue en la nube (demo pública)
 
-TaskFlow.Infrastructure: Contexto de base de datos (ApplicationDbContext), repositorios y migraciones de EF Core.
+## Contribuciones
 
-TaskFlow.API: Controladores web y configuración de middleware (CORS, Endpoints).
+Este es un proyecto personal de aprendizaje, pero si tienes sugerencias eres bienvenido a abrir un issue o un pull request.
 
- Contribuciones
-¡Las contribuciones son bienvenidas! Si deseas mejorar este proyecto, siéntete libre de hacer un fork, crear una rama con tus cambios y enviar un Pull Request.
+## Autor
 
----
-
-### ¿Cómo usarlo?
-1. Ve a la raíz de tu proyecto en tu computadora.
-2. Crea o abre el archivo llamado **`README.md`**.
-3. Pega este contenido, ajusta tu nombre de usuario de GitHub en la URL de clonación y tu nombre al final del archivo.
-4. Guárdalo y súbelo a tu repositorio con `git add`, `git commit` y `git push`. 
-
-¡Tu repositorio en GitHub se verá sumamente profesional y claro para cualquier reclutador o colega que lo visite!
+**Mario Guerrero Castillo**
+[GitHub](https://github.com/mariogc55) · [LinkedIn](https://linkedin.com/in/mario-guerrero-castillo-b19214283)

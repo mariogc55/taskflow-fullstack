@@ -1,7 +1,6 @@
 <div class="container mt-5" style="max-width: 700px;">
   <h2 class="text-center mb-4 fw-bold text-primary">TaskFlow - Gestor de Tareas</h2>
 
-  <!-- Formulario de Nueva Tarea -->
   <div class="card shadow-sm p-4 mb-4 border-0 bg-light">
     <h4 class="mb-3 text-secondary">Nueva Tarea</h4>
     <div class="mb-3">
@@ -25,7 +24,6 @@
     </button>
   </div>
 
-  <!-- Lista de Tareas -->
   <h4 class="mb-3 text-secondary">Lista de Tareas</h4>
   
   @if (tasks.length === 0) {
@@ -37,10 +35,8 @@
   <div class="list-group">
     <div *ngFor="let task of tasks" class="card shadow-sm mb-3 p-3 border-0">
       
-      <!-- Fila superior: Checkbox, Título y Estado -->
       <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-3">
-          <!-- Checkbox interactivo -->
           <input 
             type="checkbox" 
             class="form-check-input mt-0" 
@@ -49,7 +45,6 @@
             (change)="toggleTaskStatus(task)" 
           />
           
-          <!-- Título con tachado automático si está completado -->
           <span [class.text-decoration-line-through]="task.status === 'Completed'"
                 [class.text-muted]="task.status === 'Completed'"
                 class="fs-5 fw-semibold">
@@ -57,18 +52,15 @@
           </span>
         </div>
         
-        <!-- Insignia de estado (Verde si está completada, Amarilla si está pendiente) -->
         <span class="badge" [ngClass]="task.status === 'Completed' ? 'bg-success' : 'bg-warning text-dark'">
           {{ task.status || 'Pending' }}
         </span>
       </div>
 
-      <!-- Descripción de la tarea -->
       <p class="text-muted ms-4 mt-2 mb-3" style="font-size: 0.95rem;">
         {{ task.description }}
       </p>
 
-      <!-- Botón de eliminar alineado -->
       <div class="ms-4">
         <button class="btn btn-outline-danger btn-sm px-3" (click)="deleteTask(task.id)">
           Eliminar
