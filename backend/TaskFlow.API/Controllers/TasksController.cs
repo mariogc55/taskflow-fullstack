@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskFlow.Application.DTOs;
 using TaskFlow.Application.Services;
@@ -5,6 +7,7 @@ using TaskFlow.Domain.Entities;
 
 namespace TaskFlow.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class TasksController : ControllerBase
@@ -16,15 +19,18 @@ public class TasksController : ControllerBase
         _taskService = taskService;
     }
 
-    // GET: api/tasks
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TaskItemDto>>> GetTasks()
     {
-        var tasks = await _taskService.GetAllTasksAsync();
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userIdString)) return Unauthorized();
+
+        int userId = int.Parse(userIdString);
+        
+        var tasks = await _taskService.GetTasksByUserIdAsync(userId);
         return Ok(tasks);
     }
 
-    // POST: api/tasks
     [HttpPost]
     public async Task<ActionResult<TaskItemDto>> CreateTask([FromBody] TaskItemDto taskDto)
     {
@@ -32,6 +38,11 @@ public class TasksController : ControllerBase
         {
             return BadRequest(ModelState);
         }
+
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userIdString)) return Unauthorized();
+
+        taskDto.UserId = int.Parse(userIdString);
 
         var createdTask = await _taskService.CreateTaskAsync(taskDto);
         return CreatedAtAction(nameof(GetTasks), new { id = createdTask.Id }, createdTask);
@@ -58,6 +69,11 @@ public class TasksController : ControllerBase
         {
             return BadRequest();
         }
+
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userIdString)) return Unauthorized();
+
+        task.UserId = int.Parse(userIdString);
 
         try
         {

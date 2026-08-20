@@ -28,13 +28,29 @@ public class TaskService
         });
     }
 
+    public async Task<IEnumerable<TaskItemDto>> GetTasksByUserIdAsync(int userId)
+    {
+        var tasks = await _taskRepository.GetAllAsync();
+        var userTasks = tasks.Where(t => t.UserId == userId);
+        
+        return userTasks.Select(t => new TaskItemDto
+        {
+            Id = t.Id,
+            Title = t.Title,
+            Description = t.Description,
+            Status = t.Status,
+            CreatedAt = t.CreatedAt,
+            UserId = t.UserId
+        });
+    }
+
     public async Task<TaskItemDto> CreateTaskAsync(TaskItemDto taskDto)
     {
         var taskEntity = new TaskItem
         {
             Title = taskDto.Title,
             Description = taskDto.Description,
-            Status = "Pending",
+            Status = string.IsNullOrEmpty(taskDto.Status) ? "Pending" : taskDto.Status,
             CreatedAt = DateTime.UtcNow,
             UserId = taskDto.UserId
         };
@@ -55,5 +71,4 @@ public class TaskService
     {
         await _taskRepository.UpdateAsync(task);
     }
-
 }
