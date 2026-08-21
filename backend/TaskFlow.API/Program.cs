@@ -31,7 +31,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular",
-        policy => policy.AllowAnyOrigin()
+        policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200", "https://taskflow-fullstack-chi.vercel.app")
                     .AllowAnyHeader()
                     .AllowAnyMethod());
 });
@@ -67,7 +67,7 @@ builder.Services.AddAuthorization();
 var app = builder.Build();
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-app.Urls.Add($"http://*:{port}");
+app.Urls.Add($"http://0.0.0.0:{port}");
 
 using (var scope = app.Services.CreateScope())
 {
@@ -103,9 +103,14 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
 
-app.UseCors("AllowAngular");
+app.UseCors(builder => builder
+    .WithOrigins("https://taskflow-fullstack-chi.vercel.app")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
+    
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
