@@ -32,8 +32,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular",
         policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200", "https://taskflow-fullstack-chi.vercel.app")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod());
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials());
 });
 
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
@@ -103,13 +104,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseCors("AllowAngular");
 
-app.UseCors(builder => builder
-    .WithOrigins("https://taskflow-fullstack-chi.vercel.app")
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .AllowCredentials());
-    
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
