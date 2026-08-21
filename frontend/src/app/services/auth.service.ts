@@ -6,7 +6,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5287/api/auth'; 
+  private apiUrl = 'http://taskflow-fullstack-production-7512.up.railway.app/api/auth'; 
 
   constructor(private http: HttpClient) { }
 

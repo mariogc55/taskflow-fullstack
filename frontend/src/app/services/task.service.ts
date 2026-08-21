@@ -7,8 +7,7 @@ import { TaskItem } from '../models/task.model';
   providedIn: 'root'
 })
 export class TaskService {
-  // change port (ej. 5287)
-  private apiUrl = 'http://localhost:5287/api/tasks'; 
+  private apiUrl = 'http://taskflow-fullstack-production-7512.up.railway.app/api/tasks'; 
 
   constructor(private http: HttpClient) {}
 
