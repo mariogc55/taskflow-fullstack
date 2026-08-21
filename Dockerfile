@@ -10,11 +10,11 @@ RUN dotnet restore "TaskFlow.API/TaskFlow.API.csproj"
 
 COPY . .
 WORKDIR /src/TaskFlow.API
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish -c Release -o /app/out
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
-COPY --from=build /app/publish .
+COPY --from=build /app/out .
 
 ENV ASPNETCORE_URLS=http://+:$PORT
 EXPOSE 8080
