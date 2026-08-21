@@ -96,33 +96,48 @@ app.Urls.Add($"http://0.0.0.0:{port}");
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    try
-    {
-        var context = services.GetRequiredService<ApplicationDbContext>();
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        
-        logger.LogInformation("Verificando y aplicando migraciones a PostgreSQL...");
-        context.Database.Migrate();
-        logger.LogInformation("¡Migraciones aplicadas correctamente!");
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    
+    int maxRetries = 5;
+    int delaySeconds = 4;
+    bool migrationSuccess = false;
 
-        if (!context.Set<User>().Any())
-        {
-            var defaultUser = new User
-            {
-                Username = "admin",
-                Email = "admin@taskflow.com",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456")
-            };
-            
-            context.Set<User>().Add(defaultUser);
-            context.SaveChanges();
-            logger.LogInformation("Usuario administrador creado por defecto.");
-        }
-    }
-    catch (Exception ex)
+    for (int i = 1; i <= maxRetries; i++)
     {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Ocurrió un error crítico al inicializar la base de datos.");
+        try
+        {
+            var context = services.GetRequiredService<ApplicationDbContext>();
+            logger.LogInformation($"Intentando conectar y aplicar migraciones a PostgreSQL (Intento {i}/{maxRetries})...");
+            
+            context.Database.Migrate();
+            logger.LogInformation("¡Migraciones aplicadas correctamente y tablas creadas con éxito!");
+
+            if (!context.Set<User>().Any())
+            {
+                var defaultUser = new User
+                {
+                    Username = "admin",
+                    Email = "admin@taskflow.com",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456")
+                };
+                
+                context.Set<User>().Add(defaultUser);
+                context.SaveChanges();
+                logger.LogInformation("Usuario administrador creado por defecto.");
+            }
+
+            migrationSuccess = true;
+            break;
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, $"Intento {i} fallido al aplicar migraciones. Reintentando en {delaySeconds} segundos...");
+            if (i == maxRetries)
+            {
+                logger.LogError(ex, "Se agotaron todos los intentos para conectar con la base de datos.");
+            }
+            Thread.Sleep(TimeSpan.FromSeconds(delaySeconds));
+        }
     }
 }
 
