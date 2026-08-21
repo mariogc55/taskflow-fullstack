@@ -7,7 +7,7 @@ import { TaskItem } from '../models/task.model';
   providedIn: 'root'
 })
 export class TaskService {
-  private apiUrl = 'http://taskflow-fullstack-production-7512.up.railway.app/api/tasks'; 
+  private apiUrl = 'https://taskflow-fullstack-production-7512.up.railway.app/api/tasks'; 
 
   constructor(private http: HttpClient) {}
 

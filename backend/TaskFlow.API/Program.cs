@@ -31,9 +31,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular",
-        policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200", "https://tu-frontend-en-vercel.vercel.app") // <--- URL Vercel
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+        policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200", "https://taskflow-fullstack-chi.vercel.app")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
 });
 
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
