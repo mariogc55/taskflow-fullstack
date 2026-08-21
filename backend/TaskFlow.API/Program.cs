@@ -24,6 +24,11 @@ if (!string.IsNullOrEmpty(databaseUrl))
     
     connectionString = $"Host={databaseUri.Host};Port={databaseUri.Port};Database={databaseUri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true;";
 }
+else if (!string.IsNullOrEmpty(connectionString))
+{
+    connectionString = connectionString.Replace("Trusted_Connection=true;", "", StringComparison.OrdinalIgnoreCase)
+                                     .Replace("Trusted_Connection=True;", "", StringComparison.OrdinalIgnoreCase);
+}
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
