@@ -99,8 +99,11 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ApplicationDbContext>();
+        var logger = services.GetRequiredService<ILogger<Program>>();
         
+        logger.LogInformation("Verificando y aplicando migraciones a PostgreSQL...");
         context.Database.Migrate();
+        logger.LogInformation("¡Migraciones aplicadas correctamente!");
 
         if (!context.Set<User>().Any())
         {
@@ -113,12 +116,13 @@ using (var scope = app.Services.CreateScope())
             
             context.Set<User>().Add(defaultUser);
             context.SaveChanges();
+            logger.LogInformation("Usuario administrador creado por defecto.");
         }
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Ocurrió un error al inicializar la base de datos.");
+        logger.LogError(ex, "Ocurrió un error crítico al inicializar la base de datos.");
     }
 }
 
