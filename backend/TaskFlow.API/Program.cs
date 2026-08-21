@@ -14,20 +14,38 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+var envConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+var appSettingsConn = builder.Configuration.GetConnectionString("DefaultConnection");
+
+var connectionString = string.Empty;
+
 if (!string.IsNullOrEmpty(databaseUrl))
 {
     var databaseUri = new Uri(databaseUrl);
     var userInfo = databaseUri.UserInfo.Split(':');
-    
     connectionString = $"Host={databaseUri.Host};Port={databaseUri.Port};Database={databaseUri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true;";
 }
-else if (!string.IsNullOrEmpty(connectionString))
+else if (!string.IsNullOrEmpty(envConnectionString) && envConnectionString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+{
+    var databaseUri = new Uri(envConnectionString);
+    var userInfo = databaseUri.UserInfo.Split(':');
+    connectionString = $"Host={databaseUri.Host};Port={databaseUri.Port};Database={databaseUri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true;";
+}
+else if (!string.IsNullOrEmpty(envConnectionString))
+{
+    connectionString = envConnectionString;
+}
+else
+{
+    connectionString = appSettingsConn;
+}
+
+if (!string.IsNullOrEmpty(connectionString))
 {
     connectionString = connectionString.Replace("Trusted_Connection=true;", "", StringComparison.OrdinalIgnoreCase)
-                                     .Replace("Trusted_Connection=True;", "", StringComparison.OrdinalIgnoreCase);
+                                     .Replace("Trusted_Connection=True;", "", StringComparison.OrdinalIgnoreCase)
+                                     .Replace("Server=(localdb)\\mssqllocaldb;", "", StringComparison.OrdinalIgnoreCase);
 }
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
