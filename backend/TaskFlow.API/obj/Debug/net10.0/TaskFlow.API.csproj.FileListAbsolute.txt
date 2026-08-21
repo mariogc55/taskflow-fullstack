@@ -173,3 +173,5 @@ C:\Users\EQUIPO1\Desktop\taskflow-fullstack\taskflow-fullstack\backend\TaskFlow.
 C:\Users\EQUIPO1\Desktop\taskflow-fullstack\taskflow-fullstack\backend\TaskFlow.API\bin\Debug\net10.0\BCrypt-Net-Next.dll
 C:\Users\EQUIPO1\Desktop\taskflow-fullstack\taskflow-fullstack\backend\TaskFlow.API\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\EQUIPO1\Desktop\taskflow-fullstack\taskflow-fullstack\backend\TaskFlow.API\bin\Debug\net10.0\Microsoft.Bcl.Cryptography.dll
+C:\Users\EQUIPO1\Desktop\taskflow-fullstack\taskflow-fullstack\backend\TaskFlow.API\bin\Debug\net10.0\Npgsql.dll
+C:\Users\EQUIPO1\Desktop\taskflow-fullstack\taskflow-fullstack\backend\TaskFlow.API\bin\Debug\net10.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
