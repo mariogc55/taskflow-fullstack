@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TaskService } from './services/task.service';
-import { TaskItem } from './models/task.model';
+import { TaskService } from '../services/task.service';
+import { TaskItem } from '../models/task.model';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-task-list',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, FormsModule],
-  templateUrl: './app.html',
-  styleUrls: ['./app.css']
+  imports: [CommonModule, FormsModule],
+  templateUrl: './task-list.component.html',
+  styleUrls: ['./task-list.component.css']
 })
-export class App implements OnInit {
+export class TaskListComponent implements OnInit {
   tasks: TaskItem[] = [];
   newTask: TaskItem = {
     title: '',

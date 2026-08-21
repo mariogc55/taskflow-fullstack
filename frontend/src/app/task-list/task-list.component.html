@@ -1,0 +1,43 @@
+<div class="task-container">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Panel de Tareas - TaskFlow</h2>
+    <button (click)="logout()" class="btn-logout">
+      Cerrar Sesión
+    </button>
+  </div>
+  <hr>
+
+  <div class="task-form">
+    <h3>Crear Nueva Tarea</h3>
+    <div>
+      <input type="text" [(ngModel)]="newTask.title" placeholder="Título de la tarea" />
+    </div>
+    <div>
+      <textarea [(ngModel)]="newTask.description" placeholder="Descripción opcional"></textarea>
+    </div>
+    <button (click)="addTask()">Agregar Tarea</button>
+  </div>
+
+  <h3>Tus Tareas</h3>
+  <div *ngIf="tasks.length === 0" style="color: #666; font-style: italic;">No hay tareas creadas todavía.</div>
+
+  <ul>
+    <li *ngFor="let task of tasks">
+      <div style="flex-grow: 1; margin-right: 15px;">
+        <h4 style="margin: 0 0 5px 0; font-size: 1.1rem;" [style.text-decoration]="task.status === 'Completed' ? 'line-through' : 'none'" [style.color]="task.status === 'Completed' ? '#888' : '#000'">
+          {{ task.title }}
+        </h4>
+        <p style="margin: 0; color: #555; font-size: 0.95rem;">{{ task.description }}</p>
+        <small style="display: inline-block; margin-top: 5px; color: #777;">Estado: <b>{{ task.status }}</b></small>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button (click)="toggleTaskStatus(task)">
+          {{ task.status === 'Completed' ? 'Marcar Pendiente' : 'Completar' }}
+        </button>
+        <button (click)="deleteTask(task.id)">
+          Eliminar
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>
